@@ -1,0 +1,221 @@
+<svg viewBox="0 0 800 900" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <rect width="800" height="900" fill="#f5f5f5"/>
+  
+  <!-- 标题 -->
+  <text x="400" y="30" text-anchor="middle" font-size="24" font-weight="bold" fill="#333">产品发布会场地平面布置图</text>
+  
+  <!-- 半椭圆形草地 -->
+  <path d="M 250 200 A 150 80 0 0 1 550 200 Z" fill="#90EE90" stroke="#228B22" stroke-width="2"/>
+  
+  <!-- 矩形草地延伸 -->
+  <rect x="250" y="200" width="300" height="400" fill="#90EE90" stroke="#228B22" stroke-width="2"/>
+  
+  <!-- 草地纹理 -->
+  <pattern id="grass" patternUnits="userSpaceOnUse" width="20" height="20">
+    <circle cx="5" cy="5" r="1" fill="#228B22" opacity="0.3"/>
+    <circle cx="15" cy="15" r="1" fill="#228B22" opacity="0.3"/>
+    <circle cx="10" cy="10" r="1" fill="#228B22" opacity="0.3"/>
+  </pattern>
+  <path d="M 250 200 A 150 80 0 0 1 550 200 Z" fill="url(#grass)" opacity="0.5"/>
+  <rect x="250" y="200" width="300" height="400" fill="url(#grass)" opacity="0.5"/>
+  
+  <!-- 中央LED电视屏幕 -->
+  <rect x="320" y="150" width="160" height="90" fill="#1a1a1a" stroke="#333" stroke-width="3" rx="5"/>
+  <rect x="330" y="160" width="140" height="70" fill="#0066cc"/>
+  <text x="400" y="200" text-anchor="middle" font-size="14" fill="white">LED显示屏</text>
+  
+  <!-- 屏幕支架 -->
+  <rect x="390" y="240" width="20" height="30" fill="#666"/>
+  <rect x="370" y="265" width="60" height="10" fill="#666"/>
+  
+  <!-- 会议桌和座椅区域 -->
+  <!-- 定义椅子 -->
+  <g id="chair">
+    <rect width="20" height="20" fill="#8B4513" stroke="#654321" stroke-width="1" rx="2"/>
+  </g>
+  
+  <!-- 定义会议桌（长桌） -->
+  <g id="conference-table">
+    <rect width="120" height="40" fill="#8B6914" stroke="#654321" stroke-width="2" rx="3"/>
+    <rect x="5" y="5" width="110" height="30" fill="#A0522D" opacity="0.3"/>
+  </g>
+  
+  <!-- 第一排桌椅 -->
+  <g transform="translate(270, 280)">
+    <use href="#conference-table" x="0" y="0"/>
+    <!-- 桌子前的椅子 -->
+    <use href="#chair" x="10" y="-25"/>
+    <use href="#chair" x="35" y="-25"/>
+    <use href="#chair" x="60" y="-25"/>
+    <use href="#chair" x="85" y="-25"/>
+  </g>
+  
+  <g transform="translate(420, 280)">
+    <use href="#conference-table" x="0" y="0"/>
+    <!-- 桌子前的椅子 -->
+    <use href="#chair" x="10" y="-25"/>
+    <use href="#chair" x="35" y="-25"/>
+    <use href="#chair" x="60" y="-25"/>
+    <use href="#chair" x="85" y="-25"/>
+  </g>
+  
+  <!-- 第二排桌椅 -->
+  <g transform="translate(270, 350)">
+    <use href="#conference-table" x="0" y="0"/>
+    <use href="#chair" x="10" y="-25"/>
+    <use href="#chair" x="35" y="-25"/>
+    <use href="#chair" x="60" y="-25"/>
+    <use href="#chair" x="85" y="-25"/>
+  </g>
+  
+  <g transform="translate(420, 350)">
+    <use href="#conference-table" x="0" y="0"/>
+    <use href="#chair" x="10" y="-25"/>
+    <use href="#chair" x="35" y="-25"/>
+    <use href="#chair" x="60" y="-25"/>
+    <use href="#chair" x="85" y="-25"/>
+  </g>
+  
+  <!-- 第三排桌椅 -->
+  <g transform="translate(270, 420)">
+    <use href="#conference-table" x="0" y="0"/>
+    <use href="#chair" x="10" y="-25"/>
+    <use href="#chair" x="35" y="-25"/>
+    <use href="#chair" x="60" y="-25"/>
+    <use href="#chair" x="85" y="-25"/>
+  </g>
+  
+  <g transform="translate(420, 420)">
+    <use href="#conference-table" x="0" y="0"/>
+    <use href="#chair" x="10" y="-25"/>
+    <use href="#chair" x="35" y="-25"/>
+    <use href="#chair" x="60" y="-25"/>
+    <use href="#chair" x="85" y="-25"/>
+  </g>
+  
+  <!-- 第四排桌椅 -->
+  <g transform="translate(270, 490)">
+    <use href="#conference-table" x="0" y="0"/>
+    <use href="#chair" x="10" y="-25"/>
+    <use href="#chair" x="35" y="-25"/>
+    <use href="#chair" x="60" y="-25"/>
+    <use href="#chair" x="85" y="-25"/>
+  </g>
+  
+  <g transform="translate(420, 490)">
+    <use href="#conference-table" x="0" y="0"/>
+    <use href="#chair" x="10" y="-25"/>
+    <use href="#chair" x="35" y="-25"/>
+    <use href="#chair" x="60" y="-25"/>
+    <use href="#chair" x="85" y="-25"/>
+  </g>
+  
+  <!-- 遮阳伞 -->
+  <g transform="translate(300, 140)">
+    <rect x="-2" y="0" width="4" height="60" fill="#8B4513"/>
+    <path d="M -30 0 Q 0 -20 30 0 Z" fill="#FF6347" stroke="#DC143C" stroke-width="2"/>
+    <circle cx="0" cy="-20" r="3" fill="#FFD700"/>
+  </g>
+  
+  <g transform="translate(500, 140)">
+    <rect x="-2" y="0" width="4" height="60" fill="#8B4513"/>
+    <path d="M -30 0 Q 0 -20 30 0 Z" fill="#FF6347" stroke="#DC143C" stroke-width="2"/>
+    <circle cx="0" cy="-20" r="3" fill="#FFD700"/>
+  </g>
+  
+  <!-- 植物装饰 -->
+  <g id="plant">
+    <circle r="15" fill="#228B22" opacity="0.7"/>
+    <circle cy="-5" r="12" fill="#32CD32" opacity="0.7"/>
+    <circle cy="-8" r="8" fill="#00FF00" opacity="0.7"/>
+  </g>
+  
+  <use href="#plant" x="270" y="180"/>
+  <use href="#plant" x="530" y="180"/>
+  <use href="#plant" x="270" y="280"/>
+  <use href="#plant" x="530" y="280"/>
+  <use href="#plant" x="270" y="380"/>
+  <use href="#plant" x="530" y="380"/>
+  <use href="#plant" x="270" y="480"/>
+  <use href="#plant" x="530" y="480"/>
+  <use href="#plant" x="270" y="570"/>
+  <use href="#plant" x="530" y="570"/>
+  
+  <!-- 在矩形区域后方添加服务桌 -->
+  <g id="service-table">
+    <rect width="80" height="35" fill="#D2691E" stroke="#8B4513" stroke-width="2" rx="3"/>
+  </g>
+  
+  <!-- 放置服务桌在最后方 -->
+  <use href="#service-table" x="280" y="560"/>
+  <use href="#service-table" x="380" y="560"/>
+  <use href="#service-table" x="480" y="560"/>
+  
+  <!-- 图例 -->
+  <g transform="translate(50, 100)">
+    <text x="0" y="0" font-size="16" font-weight="bold" fill="#333">图例：</text>
+    
+    <rect x="0" y="10" width="20" height="15" fill="#0066cc"/>
+    <text x="25" y="22" font-size="12" fill="#333">LED显示屏</text>
+    
+    <rect x="0" y="35" width="30" height="15" fill="#8B6914"/>
+    <text x="35" y="47" font-size="12" fill="#333">会议桌</text>
+    
+    <rect x="0" y="60" width="20" height="15" fill="#8B4513"/>
+    <text x="25" y="72" font-size="12" fill="#333">座椅</text>
+    
+    <rect x="0" y="85" width="30" height="15" fill="#D2691E"/>
+    <text x="35" y="97" font-size="12" fill="#333">服务桌</text>
+    
+    <circle cx="10" cy="117" r="8" fill="#228B22"/>
+    <text x="25" y="122" font-size="12" fill="#333">绿植装饰</text>
+    
+    <path d="M 0 140 Q 10 130 20 140 Z" fill="#FF6347"/>
+    <text x="25" y="147" font-size="12" fill="#333">遮阳伞</text>
+  </g>
+  
+  <!-- 尺寸标注 -->
+  <g stroke="#666" fill="#666" font-size="12">
+    <!-- 场地宽度 -->
+    <line x1="250" y1="630" x2="550" y2="630" stroke-width="1"/>
+    <line x1="250" y1="625" x2="250" y2="635" stroke-width="1"/>
+    <line x1="550" y1="625" x2="550" y2="635" stroke-width="1"/>
+    <text x="400" y="645" text-anchor="middle">6米</text>
+    
+    <!-- 场地总深度 -->
+    <line x1="230" y1="120" x2="230" y2="600" stroke-width="1"/>
+    <line x1="225" y1="120" x2="235" y2="120" stroke-width="1"/>
+    <line x1="225" y1="600" x2="235" y2="600" stroke-width="1"/>
+    <text x="210" y="360" text-anchor="middle" transform="rotate(-90, 210, 360)">12米</text>
+    
+    <!-- 半椭圆深度标注 -->
+    <line x1="570" y1="120" x2="570" y2="200" stroke-width="1"/>
+    <line x1="565" y1="120" x2="575" y2="120" stroke-width="1"/>
+    <line x1="565" y1="200" x2="575" y2="200" stroke-width="1"/>
+    <text x="590" y="160" text-anchor="middle" transform="rotate(-90, 590, 160)">1.6米</text>
+    
+    <!-- 矩形深度标注 -->
+    <line x1="570" y1="200" x2="570" y2="600" stroke-width="1"/>
+    <line x1="565" y1="200" x2="575" y2="200" stroke-width="1"/>
+    <line x1="565" y1="600" x2="575" y2="600" stroke-width="1"/>
+    <text x="590" y="400" text-anchor="middle" transform="rotate(-90, 590, 400)">8米</text>
+  </g>
+  
+  <!-- 方向指示 -->
+  <g transform="translate(700, 500)">
+    <circle cx="0" cy="0" r="30" fill="white" stroke="#333" stroke-width="2"/>
+    <text x="0" y="-35" text-anchor="middle" font-size="12" font-weight="bold">N</text>
+    <text x="0" y="40" text-anchor="middle" font-size="12" font-weight="bold">S</text>
+    <text x="-35" y="5" text-anchor="middle" font-size="12" font-weight="bold">W</text>
+    <text x="35" y="5" text-anchor="middle" font-size="12" font-weight="bold">E</text>
+    <line x1="0" y1="-25" x2="0" y2="25" stroke="#333" stroke-width="2"/>
+    <line x1="-25" y1="0" x2="25" y2="0" stroke="#333" stroke-width="2"/>
+    <polygon points="0,-25 -3,-20 3,-20" fill="#333"/>
+  </g>
+  
+  <!-- 备注信息 -->
+  <text x="50" y="820" font-size="12" fill="#666">备注：场地总面积约72平方米，深12米×宽6米</text>
+  <text x="50" y="840" font-size="12" fill="#666">会议式布局：4排会议桌，每排2张桌子，每桌配4把椅子，共可容纳32人</text>
+  <text x="50" y="860" font-size="12" fill="#666">LED显示屏位于最前方，确保所有参会者都有良好视角</text>
+</svg>
