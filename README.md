@@ -1,14 +1,23 @@
 # SVG2PNG macOS Quick Action
 
-在 macOS Finder 中右键点击 SVG 文件即可转换为高清 PNG 图片的快捷操作。
+在 macOS Finder 中右键点击 SVG 文件即可转换为超高清 PNG 图片的快捷操作。
 
 ## 功能特点
 
 - 🎯 **右键快捷操作**: 在 Finder 中右键点击 SVG 文件即可转换
-- 🔍 **高清输出**: 默认 300 DPI 高分辨率输出
+- 🔍 **超高清输出**: 专为 Retina 屏优化，4倍分辨率输出
 - 🌈 **保持透明度**: 完整保留 SVG 的透明背景
 - 📦 **批量转换**: 支持同时选择多个 SVG 文件批量转换
 - 🔔 **实时通知**: 转换完成后显示系统通知
+- 📱 **Retina 优化**: 针对高分辨率屏幕特别优化
+
+## 项目结构
+
+```
+svg2png_mac/
+├── svg2png.sh          # 核心转换脚本
+└── README.md           # 完整使用指南
+```
 
 ## 安装步骤
 
@@ -51,89 +60,6 @@ which rsvg-convert
 
 5. **复制脚本内容**
    - 将 `svg2png.sh` 文件的完整内容复制到脚本框中
-   - 或者复制下面的脚本：
-
-```bash
-#!/bin/bash
-
-# SVG to PNG 高质量转换脚本
-# 专为 Automator Quick Action 优化
-# 支持批量转换多个 SVG 文件
-
-# 检查是否安装了 rsvg-convert
-if ! command -v rsvg-convert &> /dev/null; then
-    osascript -e 'display notification "请先安装 librsvg: brew install librsvg" with title "SVG2PNG" sound name "Basso"'
-    exit 1
-fi
-
-# 检查是否有输入文件
-if [ $# -eq 0 ]; then
-    osascript -e 'display notification "请选择 SVG 文件" with title "SVG2PNG" sound name "Basso"'
-    exit 1
-fi
-
-converted_count=0
-failed_count=0
-conversion_results=()
-
-# 处理每个输入文件
-for input_file in "$@"; do
-    # 检查文件是否存在
-    if [ ! -f "$input_file" ]; then
-        echo "文件不存在: $input_file" >&2
-        ((failed_count++))
-        continue
-    fi
-    
-    # 检查文件扩展名（不区分大小写）
-    if [[ ! "$input_file" =~ \.(svg|SVG)$ ]]; then
-        echo "跳过非 SVG 文件: $input_file" >&2
-        ((failed_count++))
-        continue
-    fi
-    
-    # 生成输出文件名
-    output_file="${input_file%.*}.png"
-    
-    # 使用 rsvg-convert 转换，设置高分辨率和优化参数
-    if rsvg-convert \
-        --dpi-x 300 \
-        --dpi-y 300 \
-        --format png \
-        --keep-aspect-ratio \
-        --output "$output_file" \
-        "$input_file" 2>/dev/null; then
-        
-        # 获取文件名用于显示
-        filename=$(basename "$input_file")
-        echo "✅ 转换成功: $filename"
-        conversion_results+=("✅ $(basename "$output_file")")
-        ((converted_count++))
-    else
-        filename=$(basename "$input_file")
-        echo "❌ 转换失败: $filename" >&2
-        conversion_results+=("❌ $filename")
-        ((failed_count++))
-    fi
-done
-
-# 显示详细结果通知
-if [ $converted_count -gt 0 ]; then
-    if [ $failed_count -eq 0 ]; then
-        osascript -e "display notification \"成功转换 $converted_count 个 SVG 文件为高清 PNG\" with title \"SVG2PNG\" sound name \"Glass\""
-    else
-        osascript -e "display notification \"成功转换 $converted_count 个，失败 $failed_count 个\" with title \"SVG2PNG\" sound name \"Glass\""
-    fi
-    
-    # 在终端中显示结果摘要
-    echo ""
-    echo "=== 转换结果摘要 ==="
-    printf '%s\n' "${conversion_results[@]}"
-    echo "总计: $converted_count 成功, $failed_count 失败"
-else
-    osascript -e 'display notification "转换失败，请检查 SVG 文件格式" with title "SVG2PNG" sound name "Basso"'
-fi
-```
 
 6. **保存 Quick Action**
    - 按 `Cmd+S` 保存
@@ -147,6 +73,15 @@ fi
 3. 转换完成后，PNG 文件将保存在相同目录
 4. 系统会显示转换结果通知
 
+## 技术细节
+
+- **转换引擎**: rsvg-convert (librsvg)
+- **输出分辨率**: 3200x3600 像素 (针对 800x900 viewBox)
+- **Retina 优化**: 4倍分辨率确保清晰显示
+- **压缩优化**: 使用 macOS sips 工具优化文件大小
+- **支持格式**: SVG → PNG
+- **特性**: 保持透明背景、保持宽高比
+
 ## 错误调试指南
 
 ### 查看错误日志的方法
@@ -156,7 +91,7 @@ fi
 #### 方法 1: Console 应用（推荐）
 1. 打开 **Console** 应用（Applications > Utilities）
 2. 在左侧选择你的 Mac 设备
-3. 在搜索框输入 "Automator" 或 "SVG2PNG"
+3. 在搜索框输入 "Automator" 或 "WorkflowServiceRunner"
 4. 重新执行 Quick Action 触发错误
 5. 查看实时日志中的错误信息
 
@@ -166,27 +101,14 @@ fi
 3. 点击播放按钮直接运行 workflow
 4. 查看底部日志窗口的错误信息
 
-#### 方法 3: 终端命令
-```bash
-# 查看实时日志
-log stream --predicate 'process == "Automator"' --level debug
-
-# 查看最近的相关日志
-log show --last 10m --predicate 'process == "Automator"' --debug
-```
-
 ### 常见问题解决
 
 #### ❌ "rsvg-convert: command not found"
-**解决方案**: 使用完整路径
-```bash
-# 在脚本开头添加
-RSVG_CONVERT="/opt/homebrew/bin/rsvg-convert"
-# 然后将所有 rsvg-convert 替换为 $RSVG_CONVERT
-```
+**原因**: 系统找不到 rsvg-convert 命令
+**解决方案**: 脚本已使用完整路径 `/opt/homebrew/bin/rsvg-convert`
 
 #### ❌ "Permission denied"
-**解决方案**: 检查文件权限
+**解决方案**: 
 - 确保可以写入目标目录
 - 检查 SVG 文件是否可读
 
@@ -196,27 +118,28 @@ RSVG_CONVERT="/opt/homebrew/bin/rsvg-convert"
 - 确保 "SVG2PNG" 已启用
 - 重启 Finder: `killall Finder`
 
+#### ❌ 输出图片模糊
+**原因**: 可能是 SVG 没有固定尺寸
+**解决方案**: 脚本已配置为明确指定高分辨率输出 (3200x3600)
+
 #### ❌ 没有任何输出
 **解决方案**: 
 - 确保在 Automator 中选择了 `Pass input: as arguments`
 - 检查是否选择了正确的 SVG 文件
 
-### 调试脚本
+### 性能优化
 
-如果需要调试，可以临时添加日志输出：
+- **高分辨率**: 输出 4倍分辨率确保 Retina 屏清晰显示
+- **文件压缩**: 自动使用 sips 优化 PNG 文件大小
+- **批量处理**: 支持同时转换多个文件
+- **错误处理**: 详细的错误报告和通知
 
-```bash
-#!/bin/bash
-# 添加到脚本开头
-echo "脚本开始执行..." >> /tmp/svg2png_debug.log
-echo "参数: $@" >> /tmp/svg2png_debug.log
-echo "参数数量: $#" >> /tmp/svg2png_debug.log
+## 更新脚本
 
-# 你的原始脚本...
-
-# 执行后查看日志
-# cat /tmp/svg2png_debug.log
-```
+如需更新转换脚本：
+1. 编辑 `svg2png.sh` 文件
+2. 复制新内容到 Automator workflow
+3. 保存 workflow
 
 ## 卸载
 
