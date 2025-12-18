@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # SVG2PNG Quick Action 一键安装脚本
+# 用法: curl -fsSL https://raw.githubusercontent.com/MarkShawn2020/mac_svg2png/main/install.sh | bash
 
 set -e
 
 WORKFLOW_NAME="SVG2PNG"
 WORKFLOW_DIR="$HOME/Library/Services/${WORKFLOW_NAME}.workflow"
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "=== SVG2PNG Quick Action 安装程序 ==="
 echo ""
@@ -61,11 +61,8 @@ cat > "$WORKFLOW_DIR/Contents/Info.plist" << 'PLIST'
 </plist>
 PLIST
 
-# 4. 读取脚本内容并转义 XML 特殊字符
-SCRIPT_CONTENT=$(cat "$SCRIPT_DIR/svg2png.sh" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
-
-# 5. 写入 document.wflow
-cat > "$WORKFLOW_DIR/Contents/document.wflow" << WFLOW
+# 4. 写入 document.wflow（脚本已内嵌并转义）
+cat > "$WORKFLOW_DIR/Contents/document.wflow" << 'WFLOW'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -131,7 +128,64 @@ cat > "$WORKFLOW_DIR/Contents/document.wflow" << WFLOW
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
-					<string>$SCRIPT_CONTENT</string>
+					<string>#!/bin/bash
+
+# SVG to PNG 高质量转换脚本
+
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+RSVG_CONVERT="/opt/homebrew/bin/rsvg-convert"
+OSASCRIPT="/usr/bin/osascript"
+
+if [ ! -f "$RSVG_CONVERT" ]; then
+    $OSASCRIPT -e 'display notification "rsvg-convert 未找到，请检查 librsvg 安装" with title "SVG2PNG 错误" sound name "Basso"'
+    exit 1
+fi
+
+if [ $# -eq 0 ]; then
+    $OSASCRIPT -e 'display notification "请选择 SVG 文件" with title "SVG2PNG" sound name "Basso"'
+    exit 1
+fi
+
+converted_count=0
+failed_count=0
+
+for input_file in "$@"; do
+    if [ ! -f "$input_file" ]; then
+        ((failed_count++))
+        continue
+    fi
+
+    if [[ ! "$input_file" =~ \.[sS][vV][gG]$ ]]; then
+        ((failed_count++))
+        continue
+    fi
+
+    output_file="${input_file%.*}.png"
+
+    if "$RSVG_CONVERT" \
+        --width 3200 \
+        --height 3600 \
+        --format png \
+        --keep-aspect-ratio \
+        --background-color transparent \
+        --output "$output_file" \
+        "$input_file" 2&gt;/dev/null; then
+        /usr/bin/sips -s formatOptions 90 "$output_file" &amp;&gt; /dev/null || true
+        ((converted_count++))
+    else
+        ((failed_count++))
+    fi
+done
+
+if [ $converted_count -gt 0 ]; then
+    if [ $failed_count -eq 0 ]; then
+        $OSASCRIPT -e "display notification \"成功转换 $converted_count 个文件\" with title \"SVG2PNG\" sound name \"Glass\""
+    else
+        $OSASCRIPT -e "display notification \"成功 $converted_count 个，失败 $failed_count 个\" with title \"SVG2PNG\" sound name \"Glass\""
+    fi
+else
+    $OSASCRIPT -e 'display notification "转换失败，请检查 SVG 文件" with title "SVG2PNG" sound name "Basso"'
+fi</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>
@@ -296,7 +350,7 @@ cat > "$WORKFLOW_DIR/Contents/document.wflow" << WFLOW
 </plist>
 WFLOW
 
-# 6. 刷新服务
+# 5. 刷新服务
 echo "刷新系统服务..."
 /System/Library/CoreServices/pbs -update 2>/dev/null || true
 killall Finder 2>/dev/null || true
@@ -308,3 +362,5 @@ echo "使用方法："
 echo "  1. 在 Finder 中右键点击 SVG 文件"
 echo "  2. 选择 Quick Actions > SVG2PNG"
 echo "  3. PNG 文件将保存在同目录下"
+echo ""
+echo "卸载: rm -rf ~/Library/Services/SVG2PNG.workflow"

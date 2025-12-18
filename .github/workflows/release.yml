@@ -33,7 +33,4 @@ jobs:
         with:
           tag_name: ${{ steps.tag.outputs.tag }}
           generate_release_notes: true
-          files: |
-            install.sh
-            uninstall.sh
-            svg2png.sh
+          files: install.sh
