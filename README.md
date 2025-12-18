@@ -1,30 +1,36 @@
-# SVG2PNG macOS Quick Action
+![Cover](docs/images/cover.png)
 
-在 macOS Finder 中右键点击 SVG 文件即可转换为高清 PNG。
+# SVG2PNG
 
-## 安装
+macOS Quick Action for converting SVG to high-resolution PNG via Finder right-click menu.
+
+## Install
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/MarkShawn2020/mac_svg2png/main/install.sh | bash
 ```
 
-## 使用
+## Usage
 
-1. 右键点击 SVG 文件
-2. Quick Actions → SVG2PNG
-3. PNG 保存在同目录
+1. Right-click any SVG file in Finder
+2. Select **Quick Actions → SVG2PNG**
+3. PNG saved in the same directory
 
-## 卸载
+Supports batch conversion - select multiple SVG files at once.
+
+## Output Specs
+
+| Parameter | Value |
+|-----------|-------|
+| Resolution | 3200×3600 (4× Retina) |
+| Background | Transparent |
+| Engine | rsvg-convert (librsvg) |
+
+## Uninstall
 
 ```bash
 rm -rf ~/Library/Services/SVG2PNG.workflow
 ```
-
-## 技术参数
-
-- 输出: 3200x3600 (4x Retina)
-- 背景: 透明
-- 引擎: rsvg-convert (librsvg)
 
 ## License
 
